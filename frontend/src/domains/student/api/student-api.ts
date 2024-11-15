@@ -9,14 +9,14 @@ import {
   StudentProps,
   StudentPropsWithId
 } from '../types';
-import { getQueryString } from '@/utils/helpers/get-query-string';
 
 export const studentApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getStudents: builder.query<StudentData, StudentFilter>({
       query: (payload) => {
-        const queryString = getQueryString(payload);
-        return `/students${queryString}`;
+        let query = new URLSearchParams(payload);
+
+        return `/students?${query}`;
       },
       providesTags: (result) =>
         result?.students?.map(({ id }) => {
